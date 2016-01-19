@@ -1,0 +1,25 @@
+ul.tool {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color:#cccccc;
+    color:white;
+}
+
+li.tool {
+    display: inline;
+}
+
+#calendar_container {
+    width:800px;
+    float:left;
+    padding:5px; 
+}
+
+#right_rail {
+    width:400px;
+    float:right;
+    padding:5px; 
+}
+
+
