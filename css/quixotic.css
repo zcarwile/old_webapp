@@ -14,6 +14,7 @@ li.tool {
     width:800px;
     float:left;
     padding:5px; 
+    position:relative;
 }
 
 #right_rail {
@@ -22,4 +23,12 @@ li.tool {
     padding:5px; 
 }
 
-
+#bottom_timeline {
+    height:200px;
+    bottom:0;
+    right:0;
+    position:fixed;
+    padding:5px; 
+    background-color: white;
+    width:100%;
+}
