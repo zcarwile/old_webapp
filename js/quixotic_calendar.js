@@ -69,8 +69,33 @@ $(document).ready(function() {
          $dialogContent.find(".date_holder").text($calendar.weekCalendar("formatDate", calEvent.start));
          setupStartAndEndTimeFields(startField, endField, calEvent, $calendar.weekCalendar("getTimeslotTimes", calEvent.start));
 
-		 // need to send this date to a query (that hits on the ETL table)
-		 document.getElementById("right_rail").innerHTML="New event: <BR>" +startField.val();
+         var d = new Date(startField.val());
+         var yyyy = d.getFullYear().toString();
+         var mm = (d.getMonth()+1).toString();
+         var dd  = d.getDate().toString();
+         start_date = yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]);
+         //alert(start_date);
+
+         // need to send this date to a query (that hits on the ETL table)
+         var xmlhttp;
+         if (window.XMLHttpRequest)
+           {// code for IE7+, Firefox, Chrome, Opera, Safari
+           xmlhttp=new XMLHttpRequest();
+           }
+         xmlhttp.onreadystatechange=function()
+           {
+           if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+               document.getElementById("right_rail").innerHTML="Clicked event: <BR>" + startField.val();
+               document.getElementById("right_rail").innerHTML=xmlhttp.responseText;
+            } 
+           }
+
+         //xmlhttp.open("POST","php/getLOD.php?entity=" + rvalue,true);
+         xmlhttp.open("GET","php/get_right_rail.php?start_date=" + start_date,true);
+         xmlhttp.send();
+         
+         //document.getElementById("right_rail").innerHTML="New event: <BR>" +startField.val();
 		 
       },
       eventDrop : function(calEvent, $event) {
@@ -78,24 +103,6 @@ $(document).ready(function() {
       eventResize : function(calEvent, $event) {
       },
       eventClick : function(calEvent, $event) {
-
-		// need to send this date to a query (that hits on the ETL table)
-		var xmlhttp;
-		if (window.XMLHttpRequest)
-		  {// code for IE7+, Firefox, Chrome, Opera, Safari
-		  xmlhttp=new XMLHttpRequest();
-		  }
-		xmlhttp.onreadystatechange=function()
-		  {
-		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				//document.getElementById("right_rail").innerHTML="Clicked event: <BR>" + startField.val();
-				document.getElementById("right_rail").innerHTML=xmlhttp.responseText;
-			} 
-		  }
-		//xmlhttp.open("POST","php/getLOD.php?entity=" + rvalue,true);
-		xmlhttp.open("POST","php/get_right_rail.php",true);
-		xmlhttp.send();
 	  
          if (calEvent.readOnly) {
             return;
@@ -108,6 +115,30 @@ $(document).ready(function() {
          var titleField = $dialogContent.find("input[name='title']").val(calEvent.title);
          var bodyField = $dialogContent.find("textarea[name='body']");
          bodyField.val(calEvent.body);
+
+         var d = new Date(calEvent.start);
+         var yyyy = d.getFullYear().toString();
+         var mm = (d.getMonth()+1).toString();
+         var dd  = d.getDate().toString();
+         start_date = yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]);
+
+         // need to send this date to a query (that hits on the ETL table)
+         var xmlhttp;
+         if (window.XMLHttpRequest)
+           {// code for IE7+, Firefox, Chrome, Opera, Safari
+           xmlhttp=new XMLHttpRequest();
+           }
+         xmlhttp.onreadystatechange=function()
+           {
+           if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+               document.getElementById("right_rail").innerHTML="Clicked event: <BR>" + startField.val();
+               document.getElementById("right_rail").innerHTML=xmlhttp.responseText;
+            } 
+           }
+         //xmlhttp.open("POST","php/getLOD.php?entity=" + rvalue,true);
+         xmlhttp.open("GET","php/get_right_rail.php?start_date=" + start_date,true);
+         xmlhttp.send();
 
          $dialogContent.dialog({
             modal: true,
