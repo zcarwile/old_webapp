@@ -1,3 +1,3 @@
 # q_webapp
 
-This is the web front end for Quixotic data.
+OLD: This is the web front end for event data.
